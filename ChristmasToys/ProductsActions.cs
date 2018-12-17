@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace ChristmasToys
 {
@@ -16,8 +17,9 @@ namespace ChristmasToys
         public void MainMethod()
         {
             //ChristmasProducts = new Products { ProductsList = new List<Product>() };
-            ChristmasProducts = WorkWithFiles.ProductsFromJson("PresentsJson.txt");
-
+            //ChristmasProducts = WorkWithFiles.ProductsFromJson("PresentsJson.txt");
+            ChristmasProducts = WorkWithFiles.ProductsFromHttpJson(@"https://catalog.api.onliner.by/search/christmasdecor?group=1&page=3");
+            
             AreThereProductsWithPriceLessThan(10);
             GetProductWithMinPrice();
             GetProductWithMaxPrice();
