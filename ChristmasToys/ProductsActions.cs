@@ -18,7 +18,7 @@ namespace ChristmasToys
         {
             //ChristmasProducts = new Products { ProductsList = new List<Product>() };
             //ChristmasProducts = WorkWithFiles.ProductsFromJson("PresentsJson.txt");
-            ChristmasProducts = WorkWithFiles.ProductsFromHttpJson(@"https://catalog.api.onliner.by/search/christmasdecor?group=1&page=3");
+            ChristmasProducts = WorkWithFiles.ProductsFromHttpJson(@"https://catalog.api.onliner.by/search/christmasdecor?group=1&page=2");
             
             AreThereProductsWithPriceLessThan(10);
             GetProductWithMinPrice();
