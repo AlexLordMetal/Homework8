@@ -25,6 +25,7 @@ namespace ChristmasToys
             GetProductWithMaxPrice();
             GetProductsWithMinPriceForTotal(50);
             GetRandomProductsForTotal(80);
+            GetRandomProductsForTotal_2(80);
             SumOfAllProductsToConsole();
             SumOfAllProductsWithPriceLessThanToConsole(40);
             GetProductsWithPriceLessThan(25);
@@ -85,6 +86,26 @@ namespace ChristmasToys
                     sumPrices += product.Prices.PriceMin.Amount;
                     products.ProductsList.Add(product);
                 }
+            }
+
+            Console.WriteLine($"Случайные товары на общую сумму {sumPrices} BYN:");
+            ProductsToConsoleWithException(products);
+        }
+
+        /// <summary>
+        /// Задротский вариант
+        /// </summary>
+        /// <param name="totalAmount"></param>
+        public void GetRandomProductsForTotal_2(double totalAmount)
+        {
+            var products = new Products() { ProductsList = new List<Product>() };
+            var sumPrices = 0.0;
+            var tempList = ChristmasProducts.ProductsList.OrderBy(x => Guid.NewGuid()).ToList();
+            while (tempList.Count > 0)
+            {
+                products.ProductsList.AddRange(tempList.TakeWhile(x => (sumPrices += x.Prices.PriceMin.Amount) <= totalAmount).ToList());
+                sumPrices = products.ProductsList.Sum(x => x.Prices.PriceMin.Amount);
+                tempList = tempList.Where(x => x.Prices.PriceMin.Amount <= totalAmount - sumPrices).Except(products.ProductsList).ToList();                
             }
 
             Console.WriteLine($"Случайные товары на общую сумму {sumPrices} BYN:");
