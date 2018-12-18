@@ -7,18 +7,25 @@ namespace ChristmasToys
 {
     public class WorkWithFiles
     {
-
-        public static Products ProductsFromJson(string fileName)
+        
+        public static Products ProductsFromJson(string filenameOrUrl)
         {
-            using (var reader = new StreamReader(fileName))
+            if (filenameOrUrl.StartsWith(@"https://", true, null))
             {
-                return JsonConvert.DeserializeObject<Products>(reader.ReadToEnd());
+                return JsonConvert.DeserializeObject<Products>(GetStringFromHttp(filenameOrUrl).Result);
+            }
+            else
+            {
+                return JsonConvert.DeserializeObject<Products>(GetStringFromFile(filenameOrUrl));
             }
         }
 
-        public static Products ProductsFromHttpJson(string url)
+        private static string GetStringFromFile(string fileName)
         {
-            return JsonConvert.DeserializeObject<Products>(GetStringFromHttp(url).Result);
+            using (var reader = new StreamReader(fileName))
+            {
+                return reader.ReadToEnd();
+            }
         }
 
         private static async Task<string> GetStringFromHttp(string url)
